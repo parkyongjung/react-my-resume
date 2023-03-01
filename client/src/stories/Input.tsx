@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 interface InputProps {
-  id: string;
-  name: string;
-  children:  React.ReactNode;
-  value: string;
+  id?: string;
+  name?: string;
+  children?:  React.ReactNode;
+  value?: string;
+  check?: string;
 }
 
 const Inputstyle = styled.div`
@@ -20,9 +21,10 @@ const Inputstyle = styled.div`
   width: 100%;
 `
 
-const InputLabel = styled.label`
+const InputLabel = styled.label<InputProps>`
   position: absolute;
-  top: 15px;
+  top: ${props => props.check ? '0px' : '15px' };
+  color: ${props => props.check ? '#8e44ad' : '#000' };
   left: 0;
   bottom: 0;
   z-index: 2;
@@ -88,7 +90,7 @@ export const Input = (props: InputProps) => {
   const valueCheck = (e: React.FormEvent<HTMLInputElement>) => {
     setValueState(`${value}${e.currentTarget.value}`);
     if (!(value === "")) {
-      {InputLabel}
+      
       console.log('비어있음')
     }
   }
@@ -96,7 +98,7 @@ export const Input = (props: InputProps) => {
 
     <Inputstyle>
       <InputText id={props.id} name={props.name} onChange={valueCheck}/>
-      <InputLabel htmlFor={props.id} >{props.children}</InputLabel>
+      <InputLabel check={value} htmlFor={props.id} >{props.children}</InputLabel>
     </Inputstyle>
 
   );
